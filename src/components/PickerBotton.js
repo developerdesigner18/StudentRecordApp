@@ -13,7 +13,7 @@ import {
 } from '@theme/layout';
 import {colors} from '@theme/colors';
 
-export default function PickerBotton({title, label}) {
+export default function PickerBotton({title, label, onAttendancePress}) {
   const [selected, setSelected] = useState(
     moment(new Date()).format('YYYY-MM-DD'),
   );
@@ -99,7 +99,7 @@ export default function PickerBotton({title, label}) {
           </TouchableOpacity>
         </View>
       </View>
-      <TouchableOpacity style={styles.container}>
+      <TouchableOpacity style={styles.container} onPress={onAttendancePress}>
         <Text style={styles.title}>{title}</Text>
         <Downw />
       </TouchableOpacity>

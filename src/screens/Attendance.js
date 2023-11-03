@@ -9,14 +9,32 @@ import {students} from '@theme/data';
 import {colors} from '@theme/colors';
 
 export default function Attendance({navigation}) {
-  const [attendance, setAttendance] = useState('');
+  const [allAttendance, setAllAttendance] = useState(false);
+  const [editId, setEditId] = useState('');
+  const [updatedStudents, setUpdatedStudents] = useState(students);
+
+  const updateAttendance = (studentId, newAttendance) => {
+    const updatedList = updatedStudents.map(student => {
+      if (student.id === studentId) {
+        return {...student, attendance: newAttendance};
+      }
+      return student;
+    });
+
+    setUpdatedStudents(updatedList);
+  };
+
   return (
     <Container bgColor={colors.white}>
       <TopHeader title={'Attendance'} onBack={() => navigation.pop()} />
-      <PickerBotton title={'Daily Attendance'} label={'Arth Hours - Dhara'} />
-      <MarkHeader total={students.length}/>
+      <PickerBotton
+        title={'Daily Attendance'}
+        label={'Arth Hours - Dhara'}
+        onAttendancePress={() => setAllAttendance(true)}
+      />
+      <MarkHeader total={students.length} />
       <FlatList
-        data={students}
+        data={updatedStudents}
         keyExtractor={i => i.id}
         showsVerticalScrollIndicator={false}
         renderItem={({item}) => (
@@ -24,11 +42,14 @@ export default function Attendance({navigation}) {
             icon={item.icon}
             title={item.name}
             description={item.desc}
-            onPressP={() => setAttendance('P')}
-            onPressA={() => setAttendance('A')}
-            onPressE={() => setAttendance('E')}
-            onPressL={() => setAttendance('L')}
-            attendance={attendance}
+            aicon={item.attendance}
+            attendance={allAttendance}
+            studentId={item.id == editId}
+            onEdit={() => setEditId(item.id)}
+            onPressP={() => updateAttendance(item.id, 'P')}
+            onPressA={() => updateAttendance(item.id, 'A')}
+            onPressE={() => updateAttendance(item.id, 'E')}
+            onPressL={() => updateAttendance(item.id, 'L')}
           />
         )}
       />

@@ -1,9 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {
-  heightPercentageToDP as hp,
-  widthPercentageToDP as wp,
-} from '@theme/layout';
+import {StyleSheet, Text, View} from 'react-native';
 import P from '@assets/images/p.svg';
 import A from '@assets/images/a.svg';
 import E from '@assets/images/e.svg';
@@ -16,9 +12,14 @@ import Pencil from '@assets/images/pencil.svg';
 import Doc from '@assets/images/doc.svg';
 import ImageButton from '@components/ImageButton';
 import {colors} from '@theme/colors';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from '@theme/layout';
 
 export default function StudentCard({
   icon,
+  aicon,
   title,
   description,
   onPressP,
@@ -28,6 +29,7 @@ export default function StudentCard({
   onPressDoc,
   onEdit,
   attendance,
+  studentId,
 }) {
   return (
     <View style={styles.container}>
@@ -36,9 +38,43 @@ export default function StudentCard({
         <Text style={styles.titleText}>{title}</Text>
         <Text style={styles.desc}>{description}</Text>
       </View>
-      {attendance ? (
+
+      {studentId ? (
+        <View style={styles.sideContainer}>
+          <ImageButton
+            icon={aicon == 'P' ? <PFill /> : <P />}
+            onPress={onPressP}
+          />
+          <ImageButton
+            icon={aicon == 'A' ? <AFill /> : <A />}
+            onPress={onPressA}
+          />
+          <ImageButton
+            icon={aicon == 'E' ? <EFill /> : <E />}
+            onPress={onPressE}
+          />
+          <ImageButton
+            icon={aicon == 'L' ? <LFill /> : <L />}
+            onPress={onPressL}
+          />
+          <ImageButton icon={<Doc total={120} />} onPress={onPressDoc} />
+        </View>
+      ) : attendance ? (
         <View style={[styles.sideContainer, {width: wp(30)}]}>
-          <ImageButton icon={<P />} onPress={onPressP} />
+          <ImageButton
+            icon={
+              aicon == 'P' ? (
+                <PFill />
+              ) : aicon == 'A' ? (
+                <AFill />
+              ) : aicon == 'E' ? (
+                <EFill />
+              ) : (
+                <LFill />
+              )
+            }
+            onPress={onPressP}
+          />
           <ImageButton icon={<Pencil />} onPress={onEdit} />
           <ImageButton icon={<Doc total={120} />} onPress={onPressDoc} />
         </View>
