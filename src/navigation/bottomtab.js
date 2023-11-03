@@ -32,6 +32,7 @@ export default function Bottomtab() {
               tabBarIcon: ({focused}) => (focused ? i.icon1 : i.icon2),
               tabBarLabel: ({focused}) => (
                 <Text
+                  numberOfLines={1}
                   style={{
                     color: focused ? colors.primary : colors.grey,
                     fontSize: hp(1.2),
